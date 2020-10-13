@@ -1,0 +1,27 @@
+#
+# Web Server configuration
+#
+server:
+  port: 8080
+  host: 0.0.0.0
+
+#
+# DB Client configuration
+#
+dbclient:
+  source: "jdbc"
+  connection:
+    url: "jdbc:postgresql://tfb-database:5432/hello_world"
+    username: "benchmarkdbuser"
+    password: "benchmarkdbpass"
+    maximumPoolSize: 512
+  statements:
+    get-world: "SELECT id, randomNumber FROM World WHERE id = ?"
+    update-world: "UPDATE World SET randomNumber = ? WHERE id = ?"
+    all-fortunes: "SELECT id, message FROM Fortune"
+  executor-service:
+    # Let's make sure we have enough parallelism for database (JDBC)
+    core-pool-size: 100
+    max-pool-size: 100
+    thread-name-prefix: "dbc-"
+    should-prestart: true
